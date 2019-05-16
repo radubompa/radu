@@ -1,4 +1,6 @@
-# Nyao - the open-source chat application for developers
+# Chat for Devs - the open-source chat application for developers
+Started by Gerard Rovira Sánchez
+Continued by Radu Bompa
 
 <p align="center">
   <a href="https://circleci.com/gh/zurfyx/nyao"><img src="https://circleci.com/gh/zurfyx/nyao.svg?style=shield&circle-token=989c19693484a1e864875e0aa3f826d57cd2a235" alt="CircleCI" /></a>
