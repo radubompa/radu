@@ -13,14 +13,14 @@ class SignupForm extends Component {
         <Field
           name="name"
           label="Name"
-          placeholder="Luke"
+          placeholder="Radu"
           component={FieldComponent}
           type="text" />
 
         <Field
           name="email"
           label="Email"
-          placeholder="luke@example.com"
+          placeholder="radu@example.com"
           component={FieldComponent}
           type="text" />
 

@@ -4,7 +4,7 @@ module.exports = {
     // MongoDB.
     data: {
       host: 'localhost',
-      port: 27017,
+      port: 28001,
       db: 'nyao',
       reconnectTimeout: 5000, // ms.
     },
@@ -19,13 +19,13 @@ module.exports = {
   // Passport (OAuth & local login).
   passport: {
     github: {
-      clientID: '???',
-      clientSecret: '???',
+      clientID: 'bc581668ca518f90fbad',
+      clientSecret: '80d32aeb4f0b6ad07356992ba9e5b5caf9a33853',
       callbackURL: 'http://localhost:3000/api/auth/github/callback',
     },
     google: {
-      clientID: '???',
-      clientSecret: '???',
+      clientID: '975313662702-f08g79j0bvqjtpmn2as2b2t05nv9kf8i.apps.googleusercontent.com',
+      clientSecret: 'EuxIfHTcqU2XXoxPzjCh3-wh',
       callbackURL: 'http://localhost:3000/api/auth/google/callback',
     },
   },
@@ -38,7 +38,7 @@ module.exports = {
   // Session cookie.
   session: {
     key: 'SID',
-    secret: 'luke skywalker',
+    secret: 'radu bompa',
   },
 
   /**

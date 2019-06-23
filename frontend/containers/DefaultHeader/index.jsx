@@ -48,7 +48,7 @@ export class DefaultHeader extends Component {
                 {guestNav}
               </ul>}
         </nav>
-        <Link to="/" className={styles.logo}>NYAO.IO</Link>
+        <Link to="/" className={styles.logo}>Chat for DEVs</Link>
       </header>
     );
   }

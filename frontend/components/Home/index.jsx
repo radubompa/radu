@@ -7,7 +7,7 @@ export default class Home extends Component {
     return (
       <div className={styles.homePage}>
         <div className={`${styles.intro} full-center`}>
-          <h1>nyao.io is a specialised chat for programmers</h1>
+          <h1>Chat for DEVs is a specialised chat for programmers</h1>
           <button className="big-transparent-button" onClick={() => browserHistory.push('/rooms/new')}>
             Create room
           </button>
