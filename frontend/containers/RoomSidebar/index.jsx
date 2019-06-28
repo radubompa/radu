@@ -4,13 +4,13 @@ import {browserHistory} from "react-router";
 import {retrieve as retrieveRooms} from "redux/modules/room";
 import {retrieve as retrieveChats, activate as activateChat} from "redux/modules/chat";
 import CreateChat from "containers/CreateChat";
+import { Link } from 'react-router';
 
 export class RoomSidebar extends Component {
     constructor(props) {
         super(props);
 
         this.handleNewChat = this.handleNewChat.bind(this);
-        this.goBack = this.goBack.bind(this);
         this.handleActivateChat = this.handleActivateChat.bind(this);
     }
 
@@ -35,14 +35,6 @@ export class RoomSidebar extends Component {
             this.props.createModal(<CreateChat complete={this.props.createModal}/>);
         }
     }
-
-    goBack() {
-        {
-            let path = 'rooms';
-            this.props.history.push(path);
-        }
-    }
-
 
     handleActivateChat(chatId) {
         // If the user by their own switches to another chat, we will reflect it
@@ -72,9 +64,7 @@ export class RoomSidebar extends Component {
                         </a>
                     </div>
                     <div className="chatListContainer">
-                        <div className="chatListSummary">
-                            {<button className={styles.new} onClick={this.goBack}>Back</button>}
-                        </div>
+                        <Link to="/rooms" className="underline">Back to Rooms</Link>
                         <div className="chatListSummary">
                             {rooms && <button className={styles.new} onClick={this.handleNewChat}>+</button>}
                             Chats ({chats.length})

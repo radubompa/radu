@@ -1,8 +1,13 @@
 import validator from 'validator';
 
-import { isId } from '~/helpers/validate';
-import { emitToRoom } from '~/helpers/socket';
+import {isId} from '~/helpers/validate';
+import {emitToRoom} from '~/helpers/socket';
 import Message from '~/models/Message';
+
+import {replyToMessage} from "./bot";
+import config from "config";
+
+const botUserId = config.get('devBotId');
 
 /**
  * Given a messageId string identifier, finds its chat object.
@@ -46,5 +51,18 @@ export function createMessage(userId, chatId, values) {
  * Emission will run in background.
  */
 export function emitMessage(roomId, message) {
+  const reply = replyToMessage(message);
+  if (reply != null) {
+    const botMessage = new Message();
+    botMessage.owner = botUserId;
+    botMessage.chat = message.chat;
+    botMessage.content = reply;
+    botMessage.type = 'plain';
+
+    botMessage.save();
+
+    emitToRoom(roomId, 'ReceiveMessage', message);
+    return emitToRoom(roomId, 'ReceiveMessage', botMessage);
+  }
   return emitToRoom(roomId, 'ReceiveMessage', message);
 }

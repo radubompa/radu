@@ -20,7 +20,7 @@ function getComponents(components) {
       .all(componentRoutes.map(route => System.import(`../${route}/index.jsx`))) // Webpack v2 import.
       .then((resolvedRoutes) => {
         const objectResolvedComponents = resolvedRoutes.reduce((result, current, index) => {
-          Object.assign(result, { [componentNames[index]]: current.default || current });
+          Object.assign(result, {[componentNames[index]]: current.default || current});
           return result;
         }, {});
         callback(null, objectResolvedComponents);

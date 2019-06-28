@@ -119,7 +119,7 @@ router.use((err, req, res, _next) => {
   log.error('~~~ Unexpected error exception end ~~~');
 
 
-  return res.status(500).json({ error: '⁽ƈ ͡ (ुŏ̥̥̥̥םŏ̥̥̥̥) ु' });
+  return res.status(500).json({ error: 'Unexpected error: ' + err  });
 });
 
 export default router;

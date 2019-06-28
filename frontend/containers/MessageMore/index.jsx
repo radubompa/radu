@@ -32,7 +32,7 @@ export class MessageMore extends Component {
   }
 
   handlePicture() {
-    alert('Coming soon...');
+    // alert('Coming soon...');
   }
 
   toggleSnippetModal() {

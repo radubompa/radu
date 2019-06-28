@@ -1,8 +1,9 @@
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
+import React, {Component, PropTypes} from 'react';
+import ReactDOM from 'react-dom';
+import {connect} from 'react-redux';
 import marked from 'marked';
-
-import { retrieve as retrieveUser } from 'redux/modules/user';
+import {retrieve as retrieveUser} from 'redux/modules/user';
+import {UrlPreviewerCard} from '../../helpers/UrlPreviewer';
 
 // Prism code highlight libraries.
 import Prism from 'prismjs';
@@ -36,8 +37,32 @@ export class Message extends Component {
     this.props.retrieveUser(this.props.message.owner);
   }
 
+  getPreview(message) {
+    const urlRegex = /(https?:\/\/[^ ]*)/;
+
+    if (message.match(urlRegex)) {
+      const url = message.match(urlRegex)[1];
+
+      let preview, self = this;
+
+      LinkPreview.getPreview('https://cors-anywhere.herokuapp.com/' + url)
+        .then(data => {
+
+        });
+
+    }
+  }
+
+  static containsUrl(message) {
+    const httpsRegex = /(https?:\/\/[^ ]*)/;
+    const httpRegex = /(http?:\/\/[^ ]*)/;
+    const wwwRegex = /(www[^ ]*)/;
+
+    return !!(message.match(httpsRegex) || message.match(httpRegex) || message.match(wwwRegex));
+  }
+
   renderMessageContent() {
-    const { messages, message, loadMore } = this.props;
+    const {messages, message, loadMore} = this.props;
 
     // Code snippet.
     if (message.type === 'code') {
@@ -67,7 +92,7 @@ export class Message extends Component {
           <div className={styles.indent}>
             {this.props.messages
               .filter(message => message.chat === forkChatId)
-              .map(message => 
+              .map(message =>
                 <Message
                   messages={messages}
                   message={message}
@@ -75,7 +100,7 @@ export class Message extends Component {
                   loadMore={this.loadMore}
                   key={message._id}
                 />
-            )}
+              )}
           </div>
         </div>
       );
@@ -91,7 +116,7 @@ export class Message extends Component {
   }
 
   render() {
-    const { message, isSticky, stickMessage, users } = this.props;
+    const {message, isSticky, stickMessage, users} = this.props;
 
     return (
       <div className={`${styles.message} ${isSticky && styles.sticky}`}>
@@ -99,17 +124,19 @@ export class Message extends Component {
         </div>
         <div className={styles.messageInformation}>
           <div className={styles.messageHeader}>
-            <span className={styles.messageSenderName}>{users[message.owner] && users[message.owner].profile.name}</span>
+            <span
+              className={styles.messageSenderName}>{users[message.owner] && users[message.owner].profile.name}</span>
             <div className={styles.messageRight}>
               <a className={styles.messageStick} onClick={() => stickMessage(message)}>
-                <i className="fa fa-thumb-tack" title="Stick message"></i>
+                <i className="fa fa-thumb-tack" title="Stick message"/>
               </a>
               <span className={styles.messageTimestamp}>
                 {message.createdAt}
-                {message.createdAt != message.updatedAt && <span className={styles.messageEdited}>(edited)</span>}
+                {message.createdAt !== message.updatedAt && <span className={styles.messageEdited}>(edited)</span>}
               </span>
             </div>
           </div>
+          {Message.containsUrl(message.content) ? <UrlPreviewerCard url={message.content}/> : ''}
           {this.renderMessageContent()}
         </div>
       </div>
@@ -124,7 +151,7 @@ Message.PropTypes = {
 
   stickMessage: PropTypes.func.isRequired,
   loadMore: PropTypes.func.isRequired,
-}
+};
 
 const mapStateToProps = function mapStateToProps(state) {
   return {
@@ -132,4 +159,4 @@ const mapStateToProps = function mapStateToProps(state) {
   };
 };
 
-export default connect(mapStateToProps, { retrieveUser })(Message);
+export default connect(mapStateToProps, {retrieveUser})(Message);

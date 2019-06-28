@@ -41,8 +41,11 @@ module.exports = {
     secret: 'radu bompa',
   },
 
+  //DevBot
+  devBotId: "5d10cd6ab7306a2548be3e82",
+
   /**
    * Config below shouldn't need to be modified.
    */
   githubIpRange: '192.30.252.0/22',
-}
+};

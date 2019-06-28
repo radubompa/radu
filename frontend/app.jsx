@@ -42,7 +42,7 @@ if (module.hot) {
     } catch (error) {
       const RedBox = require('redbox-react').default;
 
-      render(<RedBox error={error} />, mountPoint);
+      render(<RedBox error={error}/>, mountPoint);
     }
   };
 

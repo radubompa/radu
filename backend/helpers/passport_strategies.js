@@ -1,12 +1,12 @@
 import passport from 'passport';
 import config from 'config';
-import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as GithubStrategy } from 'passport-github';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
+import {Strategy as LocalStrategy} from 'passport-local';
+import {Strategy as GithubStrategy} from 'passport-github';
+import {Strategy as GoogleStrategy} from 'passport-google-oauth2';
 
 import validator from 'validator';
-import { normalizeEmail } from '~/helpers/sanitize';
-import { objectByString } from '~/helpers/object';
+import {normalizeEmail} from '~/helpers/sanitize';
+import {objectByString} from '~/helpers/object';
 import User from '~/models/User';
 
 /**
@@ -33,7 +33,7 @@ passport.use('local-signin', new LocalStrategy({
   const password = reqPassword;
 
   try {
-    const user = await User.findOne({ email }).exec();
+    const user = await User.findOne({email}).exec();
     if (!user) {
       return done(null, false, 'Email not found.');
     }
@@ -58,9 +58,9 @@ passport.use('local-signup', new LocalStrategy({
 }, (req, email, password, done) => {
   const name = req.body.name;
 
-  User.findOne({ email }).then((user) => {
+  User.findOne({email}).then((user) => {
     if (user) {
-      return done(null, false, { message: 'There is already an account using this email address.'})
+      return done(null, false, {message: 'There is already an account using this email address.'})
     }
 
     const newUser = new User();
@@ -102,20 +102,22 @@ function oauthSignedIn(mappings, req, accessToken, refreshToken, profile, done) 
   }
 
   // Let's see who is linked to this provider ID...
-  User.findOne({ [mappings.providerField]: profile.id }, (err, existingUser) => {
+  User.findOne({[mappings.providerField]: profile.id}, (err, existingUser) => {
     if (existingUser) {
       // Provider ID already linked (on another account).
       const message = `There is already a ${mappings.provider} account that belongs to you. Sign in with that account or delete it, then link it with your current account.`;
-      return done(err, false, { message });
+      return done(err, false, {message});
     }
 
     // Provider ID not linked yet.
     User.findById(req.user.id, (err, user) => {
-      if (err) { return done(err); }
+      if (err) {
+        return done(err);
+      }
       if (user[mappings.providerField]) {
         // A Provider ID has already been linked to this account
         const message = `There is already a ${mappings.provider} account linked to this account. Unlink your current ${mappings.provider} account, or create a new account.`
-        return done(err, false, { message });
+        return done(err, false, {message});
       }
 
       // Link this profile to this user account.
@@ -126,8 +128,10 @@ function oauthSignedIn(mappings, req, accessToken, refreshToken, profile, done) 
 
 // OAuth when the user is signed out.
 function oauthSignedOut(mappings, req, accessToken, refreshToken, profile, done) {
-  User.findOne({ [mappings.providerField]: profile.id }, (err, existingUser) => {
-    if (err) { return done(err); }
+  User.findOne({[mappings.providerField]: profile.id}, (err, existingUser) => {
+    if (err) {
+      return done(err);
+    }
     if (existingUser) {
       // Provider ID already linked. Sign in with that user.
       return oauthLink(mappings, existingUser, accessToken, profile, done); // OAuth token will also get updated.
@@ -142,14 +146,16 @@ function oauthSignedOut(mappings, req, accessToken, refreshToken, profile, done)
     }
 
     // Provider ID not linked yet.
-    User.findOne({ email: profile[mappings.email] }, (err, existingEmailUser) => {
-      if (err) { return done(err); }
+    User.findOne({email: profile[mappings.email]}, (err, existingEmailUser) => {
+      if (err) {
+        return done(err);
+      }
       if (existingEmailUser) {
         // Email was found on one of the registered accounts. Link it.
         if (existingEmailUser[mappings.providerField]) {
           // Only one provider link is supported per account.
           const message = `There is already an account using this ${mappings.provider} email address, but it has been already linked to another ${mappings.provider} account.`
-          return done(err, false, { message });
+          return done(err, false, {message});
         } else {
           // Link that account with the GitHub account.
           return oauthLink(mappings, existingEmailUser, accessToken, profile, done);
@@ -171,7 +177,7 @@ function oauthSignedOut(mappings, req, accessToken, refreshToken, profile, done)
  */
 function oauthLink(mappings, user, accessToken, profile, done) {
   user[mappings.providerField] = profile[mappings.id];
-  user.tokens.push({ kind: mappings.providerField, accessToken });
+  user.tokens.push({kind: mappings.providerField, accessToken});
   user.profile.name = user.profile.name || objectByString(profile, mappings.name);
   user.profile.picture = user.profile.picture || objectByString(profile, mappings.picture);
   user.profile.gender = user.profile.gender || objectByString(profile, mappings.gender);
@@ -179,7 +185,7 @@ function oauthLink(mappings, user, accessToken, profile, done) {
   user.profile.website = user.profile.website || objectByString(profile, mappings.website);
   user.save((err) => {
     // console.info(err);
-    return done(err, user, { message : `${mappings.provider} account has been linked.` });
+    return done(err, user, {message: `${mappings.provider} account has been linked.`});
   });
 }
 
@@ -196,7 +202,7 @@ passport.use(new GithubStrategy({
     provider: 'GitHub',
     providerField: 'github',
     id: 'id',
-    name: 'displayName',
+    name: 'username',
     email: '_json.email',
     picture: '_json.avatar_url',
     location: '_json.location',

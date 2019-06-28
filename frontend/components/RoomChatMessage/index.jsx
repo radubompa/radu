@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 import MessageMore from 'containers/MessageMore';
 import MessageForm from 'containers/MessageForm';

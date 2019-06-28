@@ -4,6 +4,7 @@ import Chat from '~/models/Chat';
 import { findAuthentication } from '~/services/auth';
 import { findChat, editChat, emitChat, forkChat, forkMergeChat } from '~/services/chat';
 
+
 export const chats = (req, res, next) => {
   const room = req.room;
 

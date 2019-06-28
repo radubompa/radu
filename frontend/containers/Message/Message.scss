@@ -130,3 +130,26 @@ pre.snippet {
 .indent {
   padding-left: 20px;
 }
+
+.messagePreview {
+  display: block;
+  border: 1px solid #9ecadd;
+  padding: 5px;
+  width: 510px;
+}
+.previewTitle {
+  font-size: 15px;
+  font-weight: 800;
+  padding: 2px;
+}
+.imgStyle {
+  display: inline-block;
+  width: 100px;
+}
+.detailsStyle {
+  text-decoration: none;
+  color: black;
+  display: inline-block;
+  padding: 5px;
+  width: 400px;
+}
