@@ -1,6 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Modal from 'react-modal';
+
+import { FileUpload } from "../../helpers/FileUpload"
 
 import CreateSnippet from 'containers/CreateSnippet';
 
@@ -19,7 +21,7 @@ const modalStyles = {
   }
 };
 
-export class MessageMore extends Component {
+  export class MessageMore extends Component {
   constructor(props) {
     super(props);
 
@@ -31,8 +33,9 @@ export class MessageMore extends Component {
     this.toggleSnippetModal = this.toggleSnippetModal.bind(this);
   }
 
-  handlePicture() {
-    // alert('Coming soon...');
+  handlePicture(e) {
+    const fileUpload = new FileUpload();
+    fileUpload.handleUploadFile(e, this.props);
   }
 
   toggleSnippetModal() {
@@ -54,9 +57,7 @@ export class MessageMore extends Component {
         <div className={`vertical-fold ${styles.foldContainer}`}>
           <ul>
             <li>
-              <a className="no-decorate" onClick={this.handlePicture}>
-                <i className="fa fa-picture-o" aria-hidden="true"></i>
-              </a>
+              <input type="file" accept="image/*" className={`fa fa-picture-o ${styles.faPictureO}`} onChange={this.handlePicture} />
             </li>
             <li>
               <a className="no-decorate" onClick={this.toggleSnippetModal}>
@@ -74,4 +75,11 @@ export class MessageMore extends Component {
   }
 }
 
-export default connect()(MessageMore);
+const mapStateToProps = function mapStateToProps(state) {
+  return {
+    chat: state.chat.activateResult,
+    user: state.auth.user
+  };
+};
+
+export default connect(mapStateToProps)(MessageMore);

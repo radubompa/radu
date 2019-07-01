@@ -19,7 +19,7 @@ const messageSchema = new Schema({
   // code: a programming snippet.
   type: {
     type: String,
-    enum: ['plain', 'code', 'fork'],
+    enum: ['plain', 'code', 'fork', 'file'],
     required: 'Type is required',
   },
   specifics: {

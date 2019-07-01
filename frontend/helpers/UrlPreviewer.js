@@ -12,7 +12,8 @@ export class UrlPreviewerCard extends React.Component {
   static defaultProps = {
     header: null,
     description: null,
-    url: 'http://google.com',
+    url: null,
+    file: null,
     proxyUrl: 'https://cors-anywhere.herokuapp.com',
   };
 
@@ -27,6 +28,7 @@ export class UrlPreviewerCard extends React.Component {
         type: null,
         videos: [],
         url: null,
+        file: null,
         mediaType: null,
         contentType: null,
         favicons: []
@@ -37,44 +39,57 @@ export class UrlPreviewerCard extends React.Component {
 
   componentDidMount() {
     const message = this.props.url;
+    const file = this.props.file;
     const httpsRegex = /(https?:\/\/[^ ]*)/;
     const httpRegex = /(http?:\/\/[^ ]*)/;
     const wwwRegex = /(www[^ ]*)/;
 
     let url = null;
 
-    if (message.match(httpsRegex)) {
-      url = message.match(httpsRegex)[1];
-    } else if (message.match(httpRegex)) {
-      url = message.match(httpRegex)[1];
-    } else if (message.match(wwwRegex)) {
-      url = message.match(wwwRegex)[1];
-    }
-    if (url) {
-      fetch(this.props.proxyUrl ? `${this.props.proxyUrl}/` + url : url, {}).then((response) => {
-        this.getPreview(response);
-      }).catch((err: any) => {
-        console.error(err);
-        this.setState({
-          data: {
-            title: url.substring(url.lastIndexOf('/') + 1),
-            description: url.substring(url.lastIndexOf('/') + 1),
-            images: [],
-            url: url,
-            videos: [],
-            type: "website",
-            mediaType: null,
-            contentType: null,
-            favicons: []
-          }, loading: false
-        })
+    if (message != null) {
+      if (message.match(httpsRegex)) {
+        url = message.match(httpsRegex)[1];
+      } else if (message.match(httpRegex)) {
+        url = message.match(httpRegex)[1];
+      } else if (message.match(wwwRegex)) {
+        url = message.match(wwwRegex)[1];
+      }
+      if (url && !file) {
+        fetch(this.props.proxyUrl ? `${this.props.proxyUrl}/` + url : url, {}).then((response) => {
+          this.getPreview(response);
+        }).catch((err: any) => {
+          console.error(err);
+          this.setState({
+            data: {
+              title: url.substring(url.lastIndexOf('/') + 1),
+              description: url.substring(url.lastIndexOf('/') + 1),
+              images: [],
+              url: url,
+              videos: [],
+              type: "image",
+              mediaType: null,
+              file: file,
+              contentType: null,
+              favicons: []
+            }, loading: false
+          })
+        });
+      }
+    } else if (file != null) {
+      this.setState({
+        data: {
+          images: [file],
+          url: file,
+          file: file
+        }
       });
     }
   }
 
   render() {
     return (<a href={this.state.data ? this.state.data.url : ''} className={styles.messagePreview}>
-        <div className={styles.imgStyle}><img alt={this.state.data ? this.state.data.title : ''} width={'100px'}
+        <div className={styles.imgStyle}><img alt={this.state.data ? this.state.data.title : ''}
+                                              width={this.state.data && this.state.data.file ? '500px' : '100px'}
                                               src={this.state.data && this.state.data.images ? this.state.data.images[0] : ''}/>
         </div>
         <div className={styles.detailsStyle} title={this.state.data ? this.state.data.title : ''}>
@@ -171,19 +186,19 @@ export class UrlPreviewerCard extends React.Component {
   parseTextResponse(body, url, options, contentType) {
     const doc = cheerio.load(body);
 
-      this.setState({
-        data: {
-          url: url,
-          title: this.getTitle(doc),
-          description: this.getDescription(doc),
-          mediaType: this.getMediaType(doc) || 'website',
-          contentType: contentType,
-          images: this.getImages(doc, url, options.imagesPropertyType),
-          videos: this.getVideos(doc),
-          favicons: this.getFavicons(doc, url)
-        },
-        loading: false
-      });
+    this.setState({
+      data: {
+        url: url,
+        title: this.getTitle(doc),
+        description: this.getDescription(doc),
+        mediaType: this.getMediaType(doc) || 'website',
+        contentType: contentType,
+        images: this.getImages(doc, url, options.imagesPropertyType),
+        videos: this.getVideos(doc),
+        favicons: this.getFavicons(doc, url)
+      },
+      loading: false
+    });
   }
 
   getTitle(doc) {

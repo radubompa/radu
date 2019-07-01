@@ -28,6 +28,10 @@ const FORK_MERGE = 'redux/chat/FORK_MERGE';
 const FORK_MERGE_SUCCESS = 'redux/chat/FORK_MERGE_SUCCESS';
 const FORK_MERGE_FAIL = 'redux/chat/FORK_MERGE_FAIL';
 
+const UPLOAD_FILE = 'redux/chat/UPLOAD_FILE';
+const UPLOAD_FILE_SUCCESS = 'redux/chat/UPLOAD_FILE_SUCCESS';
+const UPLOAD_FILE_FAIL = 'redux/chat/UPLOAD_FILE_FAIL';
+
 export default function reducer(state = {}, action = {}) {
   switch (action.type) {
     case CREATE:
@@ -160,7 +164,7 @@ export default function reducer(state = {}, action = {}) {
         isForkMerging: false,
         forkMergeError: null,
         forkMergeResult: action.result,
-      }
+      };
     case FORK_MERGE_FAIL:
       return {
         ...state,

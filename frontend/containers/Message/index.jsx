@@ -37,22 +37,6 @@ export class Message extends Component {
     this.props.retrieveUser(this.props.message.owner);
   }
 
-  getPreview(message) {
-    const urlRegex = /(https?:\/\/[^ ]*)/;
-
-    if (message.match(urlRegex)) {
-      const url = message.match(urlRegex)[1];
-
-      let preview, self = this;
-
-      LinkPreview.getPreview('https://cors-anywhere.herokuapp.com/' + url)
-        .then(data => {
-
-        });
-
-    }
-  }
-
   static containsUrl(message) {
     const httpsRegex = /(https?:\/\/[^ ]*)/;
     const httpRegex = /(http?:\/\/[^ ]*)/;
@@ -105,6 +89,9 @@ export class Message extends Component {
         </div>
       );
     }
+    if (message.type === 'file') {
+      return (<div className={styles.messageContent}/>)
+    }
 
     // Plain text (render with Markdown).
     return (
@@ -136,8 +123,8 @@ export class Message extends Component {
               </span>
             </div>
           </div>
-          {Message.containsUrl(message.content) ? <UrlPreviewerCard url={message.content}/> : ''}
-          {this.renderMessageContent()}
+          {message.type === 'file' ? (<UrlPreviewerCard file={message.content}/>) : (Message.containsUrl(message.content) ? <UrlPreviewerCard url={message.content}/> : '')}
+          {message.type === 'file' ? this.renderMessageContent() : ''}
         </div>
       </div>
     );

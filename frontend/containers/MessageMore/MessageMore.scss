@@ -31,3 +31,12 @@
   //padding: 8px;
   font-size: 1.1em;
 }
+
+.faPictureO{
+  font-size: 0 !important;
+  border: 0 !important;
+
+  &:before{
+    font-size: 25px !important;
+  }
+}

@@ -17,6 +17,10 @@ import * as chat from '~/controllers/chat';
 import * as message from '~/controllers/message';
 import * as webhook from '~/controllers/webhook';
 
+import multer from 'multer';
+import cloudinary from 'cloudinary';
+import fileUploadMiddleware from '../middleware/fileUpload';
+
 const router = express.Router();
 
 /**
@@ -102,6 +106,20 @@ router.delete('/messages/:_id', findAuthentication, isMessageIdValid, isMessageO
 router.post('/webhooks/github', c(webhook.github, (req) => [req.get('X-GitHub-Event'), req.get('X-GitHub-Delivery'), req.ip, req.body]));
 router.get('/webhooks/github/:repositoryUser/:repositoryName', c(webhook.githubFind, (req) => [`${req.params.repositoryUser}/${req.params.repositoryName}`]));
 router.post('/webhooks/github/subscribe', c(webhook.githubSubscribe, (req) => [req.user, req.body.repository]));
+
+cloudinary.config({
+  cloud_name: 'radubompa',
+  api_key: '573539318532484',
+  api_secret: 'HStSE11MWqt52XJ3waxaqHAHQBw',
+});
+
+/**
+ * Multer config for file upload
+ */
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+router.post('/uploadFile', upload.single('file'), fileUploadMiddleware);
 
 /**
  * Error-handler.

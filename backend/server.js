@@ -56,6 +56,9 @@ app.use((req, res, next) => {
   if (!req.session) {
     error('Session not found (is Redis down?).');
   }
+  //Allow CORS
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
 
