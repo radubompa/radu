@@ -10,7 +10,7 @@ machine:
 
 test:
   post:
-    - docker build --rm=false -t zurfyx/nyao:$CIRCLE_SHA1 -t zurfyx/nyao:latest .
+    - docker build --rm=false -t radubompa/ChatDev:$CIRCLE_SHA1 -t radubompa/ChatDev:latest .
     - docker-compose run web npm test
 
 deployment:
@@ -18,6 +18,6 @@ deployment:
     branch: master
     commands:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push zurfyx/nyao:$CIRCLE_SHA1
-      - docker push zurfyx/nyao:latest
+      - docker push radubompa/ChatDev:$CIRCLE_SHA1
+      - docker push radubompa/ChatDev:latest
       - scripts/deploy.sh

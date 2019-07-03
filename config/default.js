@@ -5,14 +5,14 @@ module.exports = {
     data: {
       host: 'localhost',
       port: 28001,
-      db: 'nyao',
+      db: 'chatdev',
       reconnectTimeout: 5000, // ms.
     },
     // Redis.
     session: {
       host: 'localhost',
       port: 6379,
-      prefix: 'nyao_',
+      prefix: 'chatdev_',
     },
   },
 
@@ -42,7 +42,7 @@ module.exports = {
   },
 
   //DevBot
-  devBotId: "5d10cd6ab7306a2548be3e82",
+  devBotId: "devbot",
 
   /**
    * Config below shouldn't need to be modified.

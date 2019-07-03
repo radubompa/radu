@@ -7,7 +7,7 @@ import * as validate from '../validate';
 describe('Validate', () => {
   describe('isEmail', () => {
     it('should be true on valid email', () => {
-      expect(validate.isEmail('nyao@example.com')).to.be.true;
+      expect(validate.isEmail('chatdev@example.com')).to.be.true;
     });
 
     it('should be false on invalid email', () => {

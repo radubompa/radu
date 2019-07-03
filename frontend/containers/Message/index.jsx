@@ -124,7 +124,7 @@ export class Message extends Component {
             </div>
           </div>
           {message.type === 'file' ? (<UrlPreviewerCard file={message.content}/>) : (Message.containsUrl(message.content) ? <UrlPreviewerCard url={message.content}/> : '')}
-          {message.type === 'file' ? this.renderMessageContent() : ''}
+          {message.type !== 'file' ? this.renderMessageContent() : ''}
         </div>
       </div>
     );

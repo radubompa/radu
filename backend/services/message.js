@@ -2,12 +2,13 @@ import validator from 'validator';
 
 import {isId} from '~/helpers/validate';
 import {emitToRoom} from '~/helpers/socket';
+import {findUserByName} from '~/services/user';
 import Message from '~/models/Message';
 
 import {replyToMessage} from "./bot";
 import config from "config";
 
-const botUserId = config.get('devBotId');
+const botUserName = config.get('devBotId');
 
 /**
  * Given a messageId string identifier, finds its chat object.
@@ -17,7 +18,7 @@ export function findMessage(messageId, otherParams) {
     throw 'Message ID is invalid.';
   }
 
-  const params = Object.assign({ _id: messageId}, otherParams);
+  const params = Object.assign({_id: messageId}, otherParams);
   return Message.findOne(params).exec().then((message) => {
     if (!message) throw 'No message matched the given parameters.';
 
@@ -53,16 +54,18 @@ export function createMessage(userId, chatId, values) {
 export function emitMessage(roomId, message) {
   const reply = replyToMessage(message);
   if (reply != null) {
-    const botMessage = new Message();
-    botMessage.owner = botUserId;
-    botMessage.chat = message.chat;
-    botMessage.content = reply;
-    botMessage.type = 'plain';
-
-    botMessage.save();
-
-    emitToRoom(roomId, 'ReceiveMessage', message);
-    return emitToRoom(roomId, 'ReceiveMessage', botMessage);
+    const res = emitToRoom(roomId, 'ReceiveMessage', message);
+    findUserByName(botUserName).then((user) => {
+      const botMessage = new Message();
+      botMessage.chat = message.chat;
+      botMessage.owner = user._id;
+      botMessage.content = reply;
+      botMessage.type = 'plain';
+      botMessage.save();
+      emitToRoom(roomId, 'ReceiveMessage', botMessage);
+    });
+    return res;
+  } else {
+    return emitToRoom(roomId, 'ReceiveMessage', message);
   }
-  return emitToRoom(roomId, 'ReceiveMessage', message);
 }

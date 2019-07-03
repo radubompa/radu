@@ -18,14 +18,14 @@ describe('Model: User', () => {
 
   it('should call email validator', async () => {
     const isEmailStub = sinon.stub();
-    isEmailStub.withArgs('nyao@example.com').returns([true]);
+    isEmailStub.withArgs('chatdev@example.com').returns([true]);
 
     mockery.enable({ warnOnReplace: false, warnOnUnregistered: false });
     mockery.registerAllowable('../');
     mockery.registerMock('../../helpers/validate', { isEmail: isEmailStub });
 
     const UserMock = require('../').default; // eslint-disable-line global-require
-    const user = new UserMock({ email: 'nyao@example.com' });
+    const user = new UserMock({ email: 'chatdev@example.com' });
 
     await user.validate();
     expect(isEmailStub).to.be.calledOnce;
@@ -47,14 +47,14 @@ describe('Model: User', () => {
   });
 
   it('should not throw error on valid email', async () => {
-    const user = new User({ email: 'nyao@example.com' });
+    const user = new User({ email: 'chatdev@example.com' });
 
     const validate = await user.validate();
     expect(validate).not.to.exist;
   });
 
   it('should create an User object', async () => {
-    const UserMock = sinon.mock(new User({ email: 'nyao@example.com' }));
+    const UserMock = sinon.mock(new User({ email: 'chatdev@example.com' }));
     const user = UserMock.object;
 
     UserMock.expects('save');
