@@ -1,10 +1,10 @@
-/* eslint-disable import/no-extraneous-dependencies, no-var, prefer-template */
+/* eslint-disable import/no-extraneous-dependencies, no-let, prefer-template */
 
-var webpack = require('webpack');
-var path = require('path');
+let webpack = require('webpack');
+let path = require('path');
 
-var PORT = process.env.PORT;
-var API_PORT = process.env.API_PORT;
+let PORT = process.env.PORT;
+let API_PORT = process.env.API_PORT;
 
 module.exports = {
   entry: [

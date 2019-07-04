@@ -106,7 +106,7 @@ export class UrlPreviewerCard extends React.Component {
     const finalUrl = response.url;
 
     // get content type of response
-    var contentType = response.headers.get('content-type');
+    let contentType = response.headers.get('content-type');
 
     if (!contentType) {
       return reject({error: 'React-Native-Link-Preview: Could not extract content type for URL.'});
@@ -202,7 +202,7 @@ export class UrlPreviewerCard extends React.Component {
   }
 
   getTitle(doc) {
-    var title = doc("meta[property='og:title']").attr('content');
+    let title = doc("meta[property='og:title']").attr('content');
 
     if (!title) {
       title = doc('title').text();
@@ -212,7 +212,7 @@ export class UrlPreviewerCard extends React.Component {
   }
 
   getDescription(doc) {
-    var description = doc('meta[name=description]').attr('content');
+    let description = doc('meta[name=description]').attr('content');
 
     if (description === undefined) {
       description = doc('meta[name=Description]').attr('content');
@@ -237,12 +237,12 @@ export class UrlPreviewerCard extends React.Component {
   }
 
   getImages(doc, rootUrl, imagesPropertyType) {
-    var images = [],
+    let images = [],
       nodes,
       src,
       dic;
 
-    var imagePropertyType = imagesPropertyType || 'og';
+    let imagePropertyType = imagesPropertyType || 'og';
     nodes = doc('meta[property=\'' + imagePropertyType + ':image\']');
 
     if (nodes.length) {
@@ -284,17 +284,17 @@ export class UrlPreviewerCard extends React.Component {
 
   getVideos(doc) {
     const videos = [];
-    var nodeTypes;
-    var nodeSecureUrls;
-    var nodeType;
-    var nodeSecureUrl;
-    var video;
-    var videoType;
-    var videoSecureUrl;
-    var width;
-    var height;
-    var videoObj;
-    var index;
+    let nodeTypes;
+    let nodeSecureUrls;
+    let nodeType;
+    let nodeSecureUrl;
+    let video;
+    let videoType;
+    let videoSecureUrl;
+    let width;
+    let height;
+    let videoObj;
+    let index;
 
     const nodes = doc("meta[property='og:video']");
     const length = nodes.length;
@@ -334,7 +334,7 @@ export class UrlPreviewerCard extends React.Component {
 
 // returns an array of URL's to favicon images
   getFavicons(doc, rootUrl) {
-    var images = [],
+    let images = [],
       nodes = [],
       src;
 
