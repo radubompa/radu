@@ -60,11 +60,12 @@ export class RoomBase extends Component {
   }
 
   render() {
+    const styles = require('./RoomBase.scss');
     const loadingPage = <div>
       Loading... (taking too long?)
       {this.props.connectError}
     </div>;
-    const loadedPage = <div className="row">
+    const loadedPage = <div className={`${styles.row} row`}>
       {/* Full page modal */}
       {this.state.modal && <div className="modal" onClick={this.destroyModal}>{this.state.modal}</div>}
 

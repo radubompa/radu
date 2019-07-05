@@ -18,7 +18,7 @@ class CreateRoomForm extends Component {
 
         <Field
           name="slug"
-          label="Slug /your-url-name-here *"
+          label="Slug /your-url-name-here (min 5 chars) *"
           placeholder="assembly-language"
           component={FieldComponent}
           type="text" />

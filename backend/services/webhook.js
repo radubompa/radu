@@ -123,6 +123,7 @@ export function githubSubscribeWebhook(repository, token) {
   const [repositoryUser, repositoryName] = repository.split('/');
   const webhookUrl = `https://api.github.com/repos/${repositoryUser}/${repositoryName}/hooks?access_token=${token}`;
   let responseStatus;
+  let url = `${config.get('host')}/webhooks/github`;
   return fetch(webhookUrl, {
     method: 'POST',
     body: JSON.stringify({
@@ -132,7 +133,7 @@ export function githubSubscribeWebhook(repository, token) {
         '*',
       ],
       config: {
-        url: `${config.get('host')}/webhooks/github`,
+        url: url,
         content_type: 'json',
       },
     }),

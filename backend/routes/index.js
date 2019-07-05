@@ -136,8 +136,7 @@ router.use((err, req, res, _next) => {
   log.error(err);
   log.error('~~~ Unexpected error exception end ~~~');
 
-
-  return res.status(500).json({ error: 'Unexpected error: ' + err  });
+  return res.status(500).json({ error: {message: 'Unexpected error: ' + (typeof err === "object" ? err[0].msg : err) }});
 });
 
 export default router;

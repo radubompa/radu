@@ -131,7 +131,8 @@
     "socket.io": "^1.5.1",
     "socket.io-client": "^1.7.2",
     "url": "0.11.0",
-    "validator": "^6.1.0"
+    "validator": "^6.1.0",
+    "x-frame-bypass": "^1.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.22.2",
