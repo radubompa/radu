@@ -34,7 +34,7 @@ module.exports = {
   proxy: false,
   // host: `localhost:${process.env.PORT}`, // How can others (inc. external peers) reach you?
                                          // i.e. https://example.com/api
-  host: 'http://d75fc5cf.ngrok.io:3030',
+  host: 'http://afbe5548.ngrok.io',
 
   // Session cookie.
   session: {

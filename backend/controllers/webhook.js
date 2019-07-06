@@ -9,7 +9,7 @@ import { githubWebhook, findGitHubWebhook, githubSubscribeWebhook } from '~/serv
 export const github = (event, uid, ip, data) => {
   return chain
     .then(() => {
-      if (!ipRangeCheck(ip, config.get('githubIpRange'))) {
+      if (!ipRangeCheck(ip, config.get('githubIpRange')) && !ipRangeCheck(ip, "::1")) {
         throw new ApiError('IP does not match GitHub whitelist.');
       }
     })
