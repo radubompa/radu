@@ -6,6 +6,8 @@ import RoomChatHistory from 'containers/RoomChatHistory';
 import RoomChatMessage from 'components/RoomChatMessage';
 import EditableText from 'components/EditableText';
 import { socketEdit, forkMerge } from 'redux/modules/chat';
+import 'x-frame-bypass';
+import styles from "../Message/Message.scss";
 
 export class RoomChat extends Component {
   constructor(props) {
@@ -34,6 +36,7 @@ export class RoomChat extends Component {
   render() {
     const styles = require('./RoomChat.scss');
     const { chat } = this.props;
+    const srcUrl = 'https://cors-anywhere.herokuapp.com/https://github.com/' + chat.github;
 
     return (
       <div className={styles.roomChatPage}>
@@ -44,7 +47,9 @@ export class RoomChat extends Component {
           </div>
           <EditableText value={chat.description} defaultValue="Description" onSubmit={this.editChatDescription} />
         </div>
-
+        {chat.github ?
+          (<iframe is="x-frame-bypass" sandbox="allow-forms allow-pointer-lock allow-scripts allow-popups allow-popups-to-escape-sandbox allow-presentation allow-same-origin"
+                src={srcUrl}/>) : '' }
         <div className={styles.chatMain}>
           <div className={styles.chatContent}>
             <RoomChatHistory />

@@ -5,8 +5,7 @@
 
 import mongoose, { Schema } from 'mongoose';
 
-import { isEmail } from '~/helpers/validate';
-import { isUsername, isPassword } from './validate';
+import { isEmail, isUsername, isPassword  } from '~/helpers/validate';
 import { hashPassword } from './middleware';
 import { comparePassword, gravatar } from './methods';
 

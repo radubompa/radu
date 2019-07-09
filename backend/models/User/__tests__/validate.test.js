@@ -2,7 +2,7 @@
 
 import { expect } from 'chai';
 
-import { isUsername, isPassword } from '../validate';
+import { isUsername, isPassword } from '~/helpers/validate';
 
 describe('Model: User (validate)', () => {
   it('should be invalid if username length is not between 5-20', async () => {

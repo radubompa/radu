@@ -54,3 +54,13 @@
   display: flex;
   flex-direction: column;
 }
+
+iframe {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  right: 0;
+  resize: both;
+  overflow: auto;
+  min-width: 50px;
+}

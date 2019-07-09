@@ -17,3 +17,13 @@ export const isEmail = value => validator.isEmail(value);
 export function isId(value) {
   return mongoose.Types.ObjectId.isValid(value);
 }
+
+export function isUsername(value) {
+  const validateLength = validator.isLength(value, { min: 5, max: 20 });
+  const validateCharacters = validator.isAlphanumeric(value);
+  return validateLength && validateCharacters;
+}
+
+export function isPassword(value) {
+  return validator.isLength(value, { min: 4 });
+}
